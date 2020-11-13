@@ -1,0 +1,172 @@
+[4:25 PM] 伊藤秀明
+    ルール簡単なので
+このゲームをターミナル出力で作ると
+配列とループ周りの知識がある程度しっかりしているといえるラインになります。
+
+チェスでも良いのですが、ルールがReversiに比べて複雑なので今はやるタイミングではないかなと思ってます。
+​[4:26 PM] Bekhruz Otaev
+    はい、始めます。
+​[4:27 PM] 伊藤秀明
+    マスは8x8なので
+
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - o x - - -
+
+- - - x o - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+
+こんなイメージで
+
+​[4:29 PM] 伊藤秀明
+    対人戦想定（player1も2も両方とも入力する形式）
+​[4:30 PM] Bekhruz Otaev
+    はい、まずゲームのやり方をしっかり覚えて、コーディングを始めます。2人でできるゲームですね。
+​[4:33 PM] 伊藤秀明
+    実行すると
+
+
+
+
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - o x - - -
+
+- - - x o - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+player1(x) input(Vertical):4
+
+
+player1(x) input(horizontal):3
+ 
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - x x x - - -
+
+- - - x o - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+player2(o) input(Vertical):3
+
+
+player2(o) input(horizontal):3
+
+
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - o - - - - -
+
+- - x o x - - -
+
+- - - x o - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+- - - - - - - -
+
+player1(x) input(Vertical):
+
+
+player1(x) input(horizontal):
+
+
+
+[4:33 PM] 伊藤秀明
+    こんな感じで繰り返していく・・
+[4:35 PM] 伊藤秀明
+    全てのマスが埋まるか、置くとこがなくなったらゲーム終了。以下を表示。
+
+Winner Player1
+
+Player1:40
+
+Player2:24
+
+
+ルールは
+
+１．2人が好きな面（色）を選ぶ
+２．初めに両側から2個ずつ対角線（斜め）に置く
+３．ブラック側（ｘ）が始める
+５．勝ちはボードに一番多いピースを置いた側
+４．参加者が順番で1回ずつ動ける
+　→相手色のコマを自分の色のコマで挟むと自分のコマのかえることができる。
+　→挟めるのは、縦・横・斜め
+　→挟むところがない場合はコマを置けない
+
+
+
+
+
+
+[ENG]
+Origin
+
+Reversi is an ancient game whose origin is uncertain.
+The oldest references about similar games go back to late in the 19th century; those games had different names and their boards had different size or shape.
+In 1870 appeared a similar game using a cross shape board. Subsequently appeared another game played on a 8x8 square shape board.
+
+Description
+
+Two players take part in this game; they need a board with 64 squares distributed in 8 rows and 8 columns, and 64 similar pieces of two colours (normally black and white): the obverse in one colour and the reversi in the other colour.
+
+Objective
+The objective for each of the players is to finish the game with more pieces on the board in his own colour than the opponent.
+
+How the game goes on
+
+Start of the game
+Before starting players decide which colour will use each of them.
+Next 4 pieces have to be placed in the central squares of the board, so that each pair of pieces of the same colour form a diagonal between them.
+The player with black pieces moves first; one only move is made every turn.
+
+Moves
+A move consists in placing from outside one piece on the board. Placed pieces can never be moved to another square later in the game.
+The incorporation of the pieces must be made according to the following rules:
+The incorported piece must outflank one or more of the opponent placed pieces
+To outflank means that a single piece or one straight row (vertical, horizontal or diagonal) of pieces of the opponent is in both sides next to own pieces, with no empty squares between all those pieces
+The player who makes the move turns the outflanked pieces over, becoming all of them in own pieces
+If there is more than one outflanked row, all the involved pieces in those rows have to be flipped
+If it´s not possible to make this kind of move, turn is forfeited and the opponent repeats another move
+
+Final
+The game is over when all the squares of the board are taken or none of the players can move.
+In any case the winner is the player who has more pieces on the board.
+The game ends in a draw when both players have the same number of pieces on the board.

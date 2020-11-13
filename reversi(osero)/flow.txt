@@ -1,0 +1,146 @@
+flow of the game:
+
+Start screen - 
+***********************************
+Welcome to the Reversi(Osero) game!
+***********************************
+
+Press S to start the game
+Press H to see the help page
+Press Q to quit the game
+
+Player 1, please choose your side:
+x 
+0
+
+Okay, Player 1 is x, Player 2 is 0.
+Remember: Player 2 starts first.
+
+
+[Board]
+    <-horizontal->
+    1 2 3 4 5 6 7 8
+  +-----------------
+ 1| - - - - - - - - 
+ 2| - - - - - - - - 
+ 3| - - - - - - - - 
+ 4| - - - x o - - - 
+ 5| - - - o x - - - 
+ 6| - - - - - - - - 
+ 7| - - - - - - - - 
+ 8| - - - - - - - - 
+
+Where do you want to place your "0"? (ex. 4 3)
+Player 2: 4 6
+
+
+   <-horizontal->
+    1 2 3 4 5 6 7 8
+  +-----------------
+ 1| - - - - - - - - 
+ 2| - - - - - - - - 
+ 3| - - - x - - - - 
+ 4| - - - x 0 - - - 
+ 5| - - - 0 x - - - 
+ 6| - - - - - - - - 
+ 7| - - - - - - - - 
+ 8| - - - - - - - - 
+
+ Player 1: 
+
+ .
+ .
+ .
+
+
+Winner: 
+****Player1*****
+
+Scores:
+Player1: 40
+Player2: 24
+
+
+[board v.2]
+     0     1     2     3     4     5     6     7
+   _____ _____ _____ _____ _____ _____ _____ _____
+  |     |     |     |     |     |     |     |     |
+0 |     |     |     |     |     |     |     |     |
+  |_____|_____|_____|_____|_____|_____|_____|_____|
+  |     |     |     |     |     |     |     |     |
+1 |     |     |     |     |     |     |     |     |
+  |_____|_____|_____|_____|_____|_____|_____|_____|
+  |     |     |     |     |     |     |     |     |
+2 |     |     |     |     |  .  |     |     |     |
+  |_____|_____|_____|_____|_____|_____|_____|_____|
+  |     |     |     |     |     |     |     |     |
+3 |     |     |     |  O  |  X  |  .  |     |     |
+  |_____|_____|_____|_____|_____|_____|_____|_____|
+  |     |     |     |     |     |     |     |     |
+4 |     |     |  .  |  X  |  O  |     |     |     |
+  |_____|_____|_____|_____|_____|_____|_____|_____|
+  |     |     |     |     |     |     |     |     |
+5 |     |     |     |  .  |     |     |     |     |
+  |_____|_____|_____|_____|_____|_____|_____|_____|
+  |     |     |     |     |     |     |     |     |
+6 |     |     |     |     |     |     |     |     |
+  |_____|_____|_____|_____|_____|_____|_____|_____|
+  |     |     |     |     |     |     |     |     |
+7 |     |     |     |     |     |     |     |     |
+  |_____|_____|_____|_____|_____|_____|_____|_____|
+
+
+
+
+
+Help Message
+
+\n:::::ORIGIN:::::\n
+Reversi is an ancient game whose origin is uncertain.\n
+The oldest references about similar games go back to late \n
+in the 19th century; those games had different names and \n
+their boards had different size or shape. In 1870 appeared \n
+a similar game using a cross shape board. Subsequently appeared \n
+another game played on a 8x8 square shape board.\n
+
+\n:::::DESCRIPTION:::::\n
+Two players take part in this game; they need a board with 64 \n
+squares distributed in 8 rows and 8 columns, and 64 similar \n
+pieces of two colours (normally black and white): the obverse \n
+in one colour and the reversi in the other colour.\n
+
+\n:::::OBJECTIVE:::::\n
+The objective for each of the players is to finish the game \n
+with more pieces on the board in his own colour than the opponent.\n
+
+\n\t\t\t\t\t ::::How the game goes on::::\n
+
+\n::::START OF THE GAME::::\n
+Before starting players decide which colour will use each of \n
+them. Next 4 pieces have to be placed in the central squares \n
+of the board, so that each pair of pieces of the same colour \n
+form a diagonal between them. The player with black pieces \n
+moves first; one only move is made every turn.\n
+
+\n::::MOVES::::\n
+A move consists in placing from outside one piece on the board. \n
+Placed pieces can never be moved to another square later in the \n
+game. The incorporation of the pieces must be made according to \n
+the following rules: \n
+⁂ The incorported piece must outflank one or more of the \n
+opponent placed pieces.\n
+⁂ To outflank means that a single piece or one straight row (vertical, \n
+horizontal or diagonal) of pieces of the opponent is in both sides \n
+next to own pieces, with no empty squares between all those pieces\n
+⁂ The player who makes the move turns the outflanked pieces over, \n
+becoming all of them in own pieces.\n
+⁂ If there is more than one outflanked row, all the involved pieces \n
+in those rows have to be flipped.\n
+⁂ If it´s not possible to make this kind of move, turn is forfeited \n
+and the opponent repeats another move.\n
+
+\n::::FINAL::::\n
+The game is over when all the squares of the board are taken or none of \n
+the players can move. In any case the winner is the player who has more \n
+pieces on the board. The game ends in a draw when both players have the \n
+same number of pieces on the board.\n
