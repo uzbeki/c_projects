@@ -49,17 +49,27 @@ void draw_board(char p, int a, int b){
         {
             if (board[v][h] == BLACK)
             {
-                board_view[v][h] == 1;
+                // board_view[v][h] == 1;
                 printf(" x ");
             }
             else if (board[v][h] == WHITE)
             {
-                board_view[v][h] == 2;
+                // board_view[v][h] == 2;
                 printf(" o ");
 
             }
             else if (a == v && b==h)
             {
+                if (strcmp(&p,"x"))
+                {
+                    board[a][b] = BLACK;
+                }else
+                {
+                    board[a][b] = WHITE;
+                    
+                }
+                
+                
                 // board_view[a][b] == 1;
                 printf(" %c ", p);
 
