@@ -1,0 +1,17 @@
+- shiryou tesuzuki X 2
+- business manner X 2
+- c study x 2
+- osero intro
+
+16-20
+
+16
+- receive input from player 2
+- check if a given spot is blank(empty) 
+- update the table with given input
+- 
+- how to do (hasamu 挟む)というコンセプト:
+    yoko, tate, nanameで確認ができるか
+    上and下に黒（白）のピースがあるかの確認
+
+- 

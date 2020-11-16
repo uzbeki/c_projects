@@ -1,26 +1,99 @@
+//creating a game REVERSI
+// rules at rules.txt
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-// choose_side() ==> game_start(p1, p2)
+#include <stdbool.h>  //for using bool
 
-void game_start(char player1[1], char player2[1]);
+// majors
+#define BLANK 0
+#define BLACK 1
+#define WHITE 2
 
-int main()
-{
+// declarations
+void choose_side();
+void show_help();
+void draw_board();
+void initial_board();
+char board[8][8];
+char updated_board[8][8];
+int v, h;
 
-    game_start("x", "o");
-    return 0;
+
+char board[8][8] = { 
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLACK,WHITE,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,WHITE,BLACK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
 };
-void draw_board()
+
+
+
+
+
+
+
+
+
+bool is_blank(int a, int b) 
 {
-    // board head
-    printf("\n    <-horizontal->\n    1 2 3 4 5 6 7 8\n  +-----------------\n");
+    if (board[a][b]==BLANK)
+    {
+        return true;
+        /* code */
+    }else
+    {
+        return false;
+        /* code */
+    }
     
-    // board body
 };
 
-void game_start(char player1[1], char player2[1])
-{
-    printf("Remember: Player 2 starts first.");
-    draw_board();
-};
+void get_input(){
+    int ver, hor;
+    printf("\nWhere do you want to put your piece?\nex.if vertical 4 and horizontal 5, please input 4 and 5\n");
+    printf("vertical position==> ");
+    scanf("%d", &ver);
+    printf("horizontal position==> ");
+    scanf("%d", &hor);
+    is_blank(ver, hor);
+
+    if (is_blank(ver, hor))
+    {
+        // draw_board("o", ver, hor);
+        printf("\ndrawing on (%d, %d)....\n", ver, hor);
+        // draw_board();
+    }
+    else
+    {
+        printf("\nSorry, (%d,%d) is not empty. Please choose an empty spot\n", ver, hor);
+        get_input();
+    }
+    
+}
+
+
+int main() {
+    get_input();
+    system("pause");
+    return 0;
+}
+
+
+/* white=o(2) black=x(1)*/
+/* 
+ -  -  -  -  -  -  -  -
+ -  -  -  -  -  -  -  -
+ -  -  -  -  -  -  -  -
+ -  -  -  x  o  -  -  -
+ -  -  -  o  x  -  -  -
+ -  -  -  -  -  -  -  -
+ -  -  -  -  -  -  -  -
+ -  -  -  -  -  -  -  -
+ 
+  */

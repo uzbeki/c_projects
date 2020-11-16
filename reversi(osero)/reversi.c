@@ -4,88 +4,152 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>  //for using bool
+
+// majors
+#define BLANK 0
+#define BLACK 1
+#define WHITE 2
 
 // declarations
-
-void choose_side();
+// void choose_side();
 void show_help();
-void game_start(char player1[1], char player2[1]);
-void draw_board();
+void draw_board(char p, int a , int b);
 void initial_board();
+void game_start();
+void get_input();
 char board[8][8];
+char board_view[8][8];
 int v, h;
 
-/* 
-################################ 
-        1. Welcome Message
-################################
 
-Draws an initial board for players to start off.
-board sample
-    char board[8][8] =
-    {
-        {'-', '-', '-', '-', '-', '-', '-', '-'},
-        {'-', '-', '-', '-', '-', '-', '-', '-'},
-        {'-', '-', '-', '-', '-', '-', '-', '-'},
-        {'-', '-', '-', '-', '-', '-', '-', '-'},
-        {'-', '-', '-', '-', '-', '-', '-', '-'},
-        {'-', '-', '-', '-', '-', '-', '-', '-'},
-        {'-', '-', '-', '-', '-', '-', '-', '-'},
-        {'-', '-', '-', '-', '-', '-', '-', '-'}}; 
-*/
 
-void initial_board()
+// checks if a,b pos is blank
+bool is_blank(int a, int b) 
 {
-    printf("\n");
-    for (v = 1; v < 9; v++)
+    if (board[a][b]==BLANK)
     {
-        
-        for (h = 1; h < 9; h++)
-        {
-            if (v == 4 && h == 4)
-            {
-                printf(" x ");
-                continue;
-            }
-            else if (v == 4 && h == 5)
-            {
-                printf(" o ");
-                continue;
-            }
-            else if (v == 5 && h == 4)
-            {
-                printf(" o ");
-                continue;
-            }
-            else if (v == 5 && h == 5)
-            {
-                printf(" x ");
-                continue;
-            }
+        return true;
+        /* code */
+    }else
+    {
+        return false;
+        /* code */
+    }
+    
+};
 
-            printf(" - ");
-        }
+
+
+void draw_board(char p, int a, int b){
+    printf("\n");
+    for (v = 0; v < 8; v++)
+    {
+        for (h = 0; h < 8; h++)
+        {
+            if (board[v][h] == BLACK)
+            {
+                board_view[v][h] == 1;
+                printf(" x ");
+            }
+            else if (board[v][h] == WHITE)
+            {
+                board_view[v][h] == 2;
+                printf(" o ");
+
+            }
+            else if (a == v && b==h)
+            {
+                // board_view[a][b] == 1;
+                printf(" %c ", p);
+
+            }
+            else
+            {
+                board_view[v][h] == 0;
+                printf(" - ");
+            }
+        };
 
         printf("\n");
     };
+    get_input();
+    
+};
+
+void get_input(){
+    int ver, hor;
+    printf("\nWhere do you want to put your piece?\nex.if vertical 4 and horizontal 5, please input 4 and 5\n");
+    printf("vertical position==> ");
+    scanf("%d", &ver);
+    printf("horizontal position==> ");
+    scanf("%d", &hor);
+    is_blank(ver, hor);
+
+    if (is_blank(ver, hor))
+    {
+        // draw_board("o", ver, hor);
+        printf("\ndrawing on (%d, %d)....\n", ver, hor);
+        draw_board('x', ver, hor);
+    }
+    else
+    {
+        printf("\nSorry, (%d,%d) is not empty. Please choose an empty spot\n", ver, hor);
+        get_input();
+    }
+    
 }
 
 
 
 
+//board starts from 0
+char board[8][8] = { 
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLACK,WHITE,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,WHITE,BLACK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+};
 
 
 
 
 
 
+void initial_board()
+{
+    printf("\n");
+    for (v = 0; v < 8; v++)
+    {
 
+        for (h = 0; h < 8; h++)
+        {
+            if (board[v][h] == BLACK)
+            {
+                board_view[v][h] == 1;
+                printf(" x ");
+            }
+            else if (board[v][h] == WHITE)
+            {
+                board_view[v][h] == 2;
+                printf(" o ");
 
+            }
+            else
+            {
+                board_view[v][h] == 0;
+                printf(" - ");
+            }
+        };
 
-
-
-
-
+        printf("\n");
+    };
+    get_input();
+};
 
 /* ################################ 
         1. Welcome Message
@@ -100,7 +164,7 @@ void welcome()
 
     if (strcmp(choice, "s") == 0)
     {
-        choose_side();
+        game_start();
     }
     else if (strcmp(choice, "h") == 0)
     {
@@ -120,48 +184,22 @@ void welcome()
 /* ################################ 
             Game start
 ################################ */
-void game_start(char player1[1], char player2[1])
+void game_start()
 {
-    printf("\nRemember: Player 2 starts first.\n");
+    printf("\nRemember: Blacks start first.\n");
     initial_board();
+
 };
 
 
 
-/* ################################ 
-Player 1 Choose side Message
-################################ */
-void choose_side()
-{
-    char side[1];
-    printf("%s", "\nPlayer 1, please choose your side:\nx\n0\n");
-    printf("\np1 ==> ");
-    scanf("%s", &side);
 
-    if (strcmp(side, "x") == 0 || strcmp(side, "X") == 0)
-    {
-        printf("Okay, Player 1 is x, Player 2 is 0.");
-        game_start("x", "o");
-    }
-    else if (strcmp(side, "o") == 0 || strcmp(side, "O") == 0 || strcmp(side, "0") == 0)
-    {
-        printf("Okay, Player 1 is o, Player 2 is x.");
-        game_start("o", "x");
-    }
-    else
-    {
-
-        printf("No, you have to choose either x or o. Please enter a corrent character. ");
-        choose_side();
-    };
-};
 
 /* ################################ 
          Help Message
 ################################ */
 void show_help()
 {
-
     struct Help
     {
         char origin[500];
@@ -197,5 +235,6 @@ int main()
 {
     welcome();
 
+    system("pause");
     return 0;
 };
