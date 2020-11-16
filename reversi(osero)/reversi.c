@@ -7,9 +7,10 @@
 #include <stdbool.h>  //for using bool
 
 // majors
-#define BLANK 0
+#define BLANK 2
 #define BLACK 1
-#define WHITE 2
+#define WHITE 0
+
 
 // declarations
 // void choose_side();
@@ -17,11 +18,16 @@ void show_help();
 void draw_board(char p, int a , int b);
 void initial_board();
 void game_start();
-void get_input();
+void get_input(int p);
 char board[8][8];
 char board_view[8][8];
 int v, h;
+int current_player = BLACK;
 
+
+void change_player(){
+    current_player = (current_player +1) % 2;
+}
 
 
 // checks if a,b pos is blank
@@ -41,7 +47,7 @@ bool is_blank(int a, int b)
 
 
 
-void draw_board(char p, int a, int b){
+void draw_board(char player, int a, int b){
     printf("\n");
     for (v = 0; v < 8; v++)
     {
@@ -60,18 +66,19 @@ void draw_board(char p, int a, int b){
             }
             else if (a == v && b==h)
             {
-                if (strcmp(&p,"x"))
+                if (player==BLACK)
                 {
                     board[a][b] = BLACK;
+                    printf(" x ", board[a][b]);
                 }else
                 {
+                    printf(" o ", board[a][b]);
                     board[a][b] = WHITE;
                     
                 }
                 
                 
                 // board_view[a][b] == 1;
-                printf(" %c ", p);
 
             }
             else
@@ -83,12 +90,24 @@ void draw_board(char p, int a, int b){
 
         printf("\n");
     };
-    get_input();
+    change_player();
+    get_input(current_player);
     
 };
 
-void get_input(){
+void get_input(int player){
     int ver, hor;
+    if (current_player==BLACK)
+    {
+        printf("[BLACK]\n");
+        
+    }else
+    {
+        printf("[WHITE]\n");
+        
+    }
+    
+    
     printf("\nWhere do you want to put your piece?\nex.if vertical 4 and horizontal 5, please input 4 and 5\n");
     printf("vertical position==> ");
     scanf("%d", &ver);
@@ -100,12 +119,12 @@ void get_input(){
     {
         // draw_board("o", ver, hor);
         printf("\ndrawing on (%d, %d)....\n", ver, hor);
-        draw_board('x', ver, hor);
+        draw_board(player, ver, hor);
     }
     else
     {
         printf("\nSorry, (%d,%d) is not empty. Please choose an empty spot\n", ver, hor);
-        get_input();
+        get_input(current_player);
     }
     
 }
@@ -158,7 +177,7 @@ void initial_board()
 
         printf("\n");
     };
-    get_input();
+    get_input(current_player);
 };
 
 /* ################################ 
@@ -243,6 +262,8 @@ void show_help()
 ################################ */
 int main()
 {
+
+
     welcome();
 
     system("pause");
