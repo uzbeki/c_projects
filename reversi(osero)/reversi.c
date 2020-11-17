@@ -10,7 +10,7 @@
 #define BLANK 2
 #define BLACK 1
 #define WHITE 0
-
+#define OK 3
 
 // declarations
 // void choose_side();
@@ -22,12 +22,321 @@ void get_input(int p);
 char board[8][8];
 int v, h;
 int current_player = BLACK;
+int opposite_player = WHITE;
+int black_count=0;
+int white_count=0;
+int empty_count=0;
+int empty_list[8][2];
+// void clear_empty_list();
+void hint_show();
+void hint_clear();
+// void next_move();
+void check_all(int a, int b);
+
+
+
+
+void hint_show(){
+    for (size_t i = 0; i < 8; i++)
+    {
+        int a = empty_list[i][0];
+        int b = empty_list[i][1];
+        board[a][b]=OK;
+    }
+}
+
+void hint_clear(){
+    for (size_t i = 0; i < 8; i++)
+    {
+        int a = empty_list[i][0];
+        int b = empty_list[i][1];
+        board[a][b]=BLANK;
+    }
+    memset(empty_list, 0, sizeof(empty_list[0][0]) * 8 * 2); //stackoverflow
+}
+
+
 
 
 // changes player turns from white to black and vice versa
 void change_player(){
     current_player = (current_player +1) % 2;
+    opposite_player = (current_player +1) % 2;
+    // clear_empty_list();
 }
+
+
+
+// GOTTA WORK ON THIS*****************************************************
+// left  == board(v, h-1) till h=0
+void check_left(int a, int b){
+    
+    printf("\n");
+    printf(" the left side ");
+    // int left=board[a][b-1];
+    for (b < 0; b--;)
+    {
+        printf(" ==> %d(%d,%d)", board[a][b], a,b);
+        if (board[a][b]==opposite_player)
+        {
+
+            check_left(a,b);
+            board[a][b]=current_player;
+            printf("opposite changed into current player...");
+            continue;
+        }else if (board[a][b]==current_player)
+        {
+            break;
+        }else if (board[a][b]==BLANK)
+        {
+            empty_list[0][0]=a;
+            empty_list[0][1]=b;
+            // board[a][b]==OK;
+            break;
+        }
+    }
+    
+
+}
+
+
+// right   == board(v,h+1) till h=7
+void check_right(int a, int b){
+    int i=b+1;
+    printf("\nthe right side is ");
+    // int left=board[a][b-1];
+    while (i<8)
+    {
+        
+        printf(" ==> %d(%d,%d)", board[a][i],a,i);
+        if (board[a][i]==opposite_player)
+        {
+            check_right(a,i);
+            board[a][i]=current_player;
+            printf("opposite changed into current player...");
+            i++;
+            continue;
+        }else if (board[a][i]==current_player)
+        {
+            break;
+        }else if (board[a][i]==BLANK)
+        {
+            empty_list[1][0]=a;
+            empty_list[1][1]=i;
+            // board[a][i]==OK;
+            break;
+        }
+        i++;
+    }
+}
+
+
+// up == board(v-1,h) till v=0
+void check_up(int a, int b){
+    printf("\nthe up side is ");
+    int i=a-1;
+    while (i>-1)
+    {
+        printf("  ==> %d(%d,%d)", board[i][b], i, b);
+        if (board[i][b]==opposite_player)
+        {
+            check_up(i,b);
+            board[i][b]=current_player;
+            printf("opposite changed into current player...");
+            i--;
+            continue;
+        }else if (board[i][b]==current_player)
+        {
+            break;
+        }else if (board[i][b]==BLANK)
+        {
+            empty_list[2][0]=i;
+            empty_list[2][1]=b;
+            // board[i][b]=OK;
+            break;
+        }
+        i--;
+    }
+    
+
+}
+
+
+// down == board(v+1,h) till v=7
+void check_down(int a, int b){
+    int i=a+1;
+    printf("\nthe down side is ");
+    while (i<8)
+    {
+        printf("  ==> %d(%d,%d)", board[i][b],i,b);
+        if (board[i][b]==opposite_player)
+        {
+            check_down(i,b);
+            board[i][b]=current_player;
+            printf("opposite changed into current player...");
+            i++;
+            continue;
+        }else if (board[i][b]==current_player)
+        {
+            break;
+        }else if (board[i][b]==BLANK)
+        {
+            empty_list[3][0]=i;
+            empty_list[3][1]=b;
+            // board[i][b]=OK;
+            break;
+        }
+        i++;
+    }
+    
+}
+
+
+// left up == board(v-1,h-1) till either v=0 || h=0
+void check_left_up(int a, int b){
+    printf("\nthe left-up side is ");
+    int i= a-1;
+    int j = b-1;
+    while (i>-1 && j>-1)
+    {
+        printf(" %d(%d,%d) ==> ",board[i][j], i,j);
+        if (board[i][j]==opposite_player)
+        {
+            check_left_up(i,j);
+            board[i][j]=current_player;
+            printf("opposite changed into current player...");
+            i--;
+            j--;
+            continue;
+        }else if (board[i][j]==current_player)
+        {
+            break;
+        }else if (board[i][j]==BLANK)
+        {
+            empty_list[4][0]=i;
+            empty_list[4][1]=j;
+            // board[i][j]=OK;
+            break;
+        }
+        i--;
+        j--;
+    }
+    
+
+}
+
+
+// right up  == board(v-1,h+1) till either v=0 || h=0
+void check_right_up(int a, int b){
+    printf("\nthe right-up side is ");
+    int i= a-1;
+    int j = b+1;
+    while (i>-1 && j>-1 && i<8 && j<8)
+    {
+        printf(" %d(%d,%d) ==> ",board[i][j], i,j);
+        if (board[i][j]==opposite_player)
+        {
+            check_right_up(i,j);
+            board[i][j]=current_player;
+            printf("opposite changed into current player...");
+            i--;
+            j++;
+            continue;
+        }else if (board[i][j]==current_player)
+        {
+            break;
+        }else if (board[i][j]==BLANK)
+        {
+            empty_list[5][0]=i;
+            empty_list[5][1]=j;
+            // board[i][j]=OK;
+            break;
+        }
+        i--;
+        j++;
+    }
+    
+}
+
+
+// left down  == board(v+1,h-1) till either v=7 || h=7
+void check_left_down(int a, int b){
+    printf("\nthe left-down side is ");
+    int i= a+1;
+    int j = b-1;
+    while (i<8 && j<8 && i>-1 && j>-1)
+    {
+        printf(" %d(%d,%d) ==> ",board[i][j], i,j);
+        if (board[i][j]==opposite_player)
+        {
+            check_left_down(i,j);
+            board[i][j]=current_player;
+            printf("opposite changed into current player...");
+            i++;
+            j--;
+            continue;
+        }else if (board[i][j]==current_player)
+        {
+            break;
+        }else if (board[i][j]==BLANK)
+        {
+            empty_list[6][0]=i;
+            empty_list[6][1]=j;
+            // board[i][j]=OK;
+            break;
+        }
+        i++;
+        j--;
+    }
+}
+
+
+// right down == board(v+1,h+1) till either v=7 || h=7
+void check_right_down(int a, int b){
+    printf("\nthe right-down side is ");
+    int i= a+1;
+    int j = b+1;
+    while (i<8 && j<8 && i>-1 && j>-1)
+    {
+        printf(" %d(%d,%d) ==> ",board[i][j], i,j);
+        if (board[i][j]==opposite_player)
+        {
+            check_right_down(i,j);
+            board[i][j]=current_player;
+            printf("opposite changed into current player...");
+            i++;
+            j++;
+            continue;
+        }else if (board[i][j]==current_player)
+        {
+            break;
+        }else if (board[i][j]==BLANK)
+        {
+            empty_list[7][0]=i;
+            empty_list[7][1]=j;
+            // board[i][j]=OK;
+            break;
+        }
+        i++;
+        j++;
+    }
+}
+
+void check_all(int a, int b){
+        
+        printf("\n");
+        
+        check_left(a,b);
+        check_right(a,b);
+        check_up(a,b);
+        check_down(a,b);
+        check_left_up(a,b);
+        check_right_up(a,b);
+        check_left_down(a,b);
+        check_right_down(a,b);
+    }
+
+
 
 
 // checks if input position is blank
@@ -46,8 +355,48 @@ bool is_blank(int a, int b)
 };
 
 
+
+// here I figured out how to return more than one value in one function
+/* void count(int *black_count, int *white_count, int*empty_count){
+    // black_count = 0;
+    // white_count = 0;
+    // empty_count = 0;
+
+    for (v = 0; v < 8; v++)
+    {
+        for (h = 0; h < 8; h++)
+        {
+            if (board[v][h]==BLACK)
+            {
+                black_count++;
+            }
+            else if (board[v][h]==WHITE)
+            {
+                white_count++;
+            }
+            else
+            {
+                empty_count++;   
+            }
+        
+        }
+        
+    }
+    *black_count;
+    *white_count;
+    *empty_count;
+}
+
+
+ */
+
+
+
 // draws the board based on the input and current player
 void draw_board(char player, int a, int b){
+    black_count=0;
+    white_count=0;
+    empty_count=0;
     printf("\n");
     for (v = 0; v < 8; v++)
     {
@@ -55,13 +404,18 @@ void draw_board(char player, int a, int b){
         {
             if (board[v][h] == BLACK)
             {
-                // board_view[v][h] == 1;
+                black_count++;
                 printf(" x ");
             }
             else if (board[v][h] == WHITE)
             {
-                // board_view[v][h] == 2;
+                white_count++;
                 printf(" o ");
+
+            }
+            else if (board[v][h] == OK)
+            {
+                printf(" . ");
 
             }
             else if (a == v && b==h)
@@ -69,9 +423,11 @@ void draw_board(char player, int a, int b){
                 if (player==BLACK)
                 {
                     board[a][b] = BLACK;
+                    black_count++;
                     printf(" x ", board[a][b]);
                 }else
                 {
+                    white_count++;
                     printf(" o ", board[a][b]);
                     board[a][b] = WHITE;
                     
@@ -84,12 +440,16 @@ void draw_board(char player, int a, int b){
             else
             {
                 // board_view[v][h] == 0;
+                empty_count++;
                 printf(" - ");
             }
         };
 
         printf("\n");
     };
+    // count(&black_count, &white_count, &empty_count);
+    
+    printf("Scores: x=%d, o=%d\n", black_count, white_count);
     change_player();
     get_input(current_player);
     
@@ -98,14 +458,16 @@ void draw_board(char player, int a, int b){
 
 // gets the input from players
 void get_input(int player){
+    
+    hint_clear();
     int ver, hor;
     if (current_player==BLACK)
     {
-        printf("[BLACK]\n");
+        printf("BLACK [x] moves\n");
         
     }else
     {
-        printf("[WHITE]\n");
+        printf("WHITE [o] moves\n");
         
     }
     
@@ -115,13 +477,19 @@ void get_input(int player){
     scanf("%d", &ver);
     printf("horizontal position==> ");
     scanf("%d", &hor);
-    is_blank(ver, hor);
+    ver--;
+    hor--;
+    // is_blank(ver, hor);
 
     if (is_blank(ver, hor))
     {
-        // draw_board("o", ver, hor);
+        // next_move();
+        check_all(ver, hor);
+        
+        hint_show();
         printf("\ndrawing on (%d, %d)....\n", ver, hor);
         draw_board(player, ver, hor);
+        
     }
     else
     {
@@ -154,6 +522,7 @@ char board[8][8] = {
 // I might delete this alltogether...
 void initial_board()
 {
+    hint_show();
     printf("\n");
     for (v = 0; v < 8; v++)
     {
@@ -169,6 +538,12 @@ void initial_board()
             {
                 // board_view[v][h] == 2;
                 printf(" o ");
+
+            }
+            else if (board[v][h] == OK)
+            {
+                // board_view[v][h] == 2;
+                printf(" . ");
 
             }
             else
@@ -200,6 +575,8 @@ void welcome()
 
     if (strcmp(choice, "s") == 0)
     {
+        // gotta have something here to show the first hints
+
         game_start();
     }
     else if (strcmp(choice, "h") == 0)

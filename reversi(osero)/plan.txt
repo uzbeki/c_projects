@@ -6,10 +6,14 @@
 16-20
 
 16
-- receive input from player 2
-- check if a given spot is blank(empty) 
-- update the table with given input
-- 
+
+17.
+- score calculator
+- ver hor dia concepts check
+
+fixed input bug on get_input
+ 
+
 - how to do (hasamu 挟む)というコンセプト:
     yoko, tate, nanameで確認ができるか
     上and下に黒（白）のピースがあるかの確認

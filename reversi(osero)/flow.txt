@@ -1,4 +1,28 @@
 flow of the game:
+main()
+welcome()
+  if choice == s:
+    game_start()
+    system("clear")
+    initial_board()
+    hint_show() no effect
+    get_input()
+    hint_clear()
+      if is_blank(ver, hor):
+        check_all()
+        hint_show()
+        draw_board(ver, hor)
+          change_player()
+          get_input(current_player)
+          
+
+
+
+
+
+
+
+
 
 Start screen - 
 ***********************************
