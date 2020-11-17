@@ -20,17 +20,17 @@ void initial_board();
 void game_start();
 void get_input(int p);
 char board[8][8];
-char board_view[8][8];
 int v, h;
 int current_player = BLACK;
 
 
+// changes player turns from white to black and vice versa
 void change_player(){
     current_player = (current_player +1) % 2;
 }
 
 
-// checks if a,b pos is blank
+// checks if input position is blank
 bool is_blank(int a, int b) 
 {
     if (board[a][b]==BLANK)
@@ -46,7 +46,7 @@ bool is_blank(int a, int b)
 };
 
 
-
+// draws the board based on the input and current player
 void draw_board(char player, int a, int b){
     printf("\n");
     for (v = 0; v < 8; v++)
@@ -83,7 +83,7 @@ void draw_board(char player, int a, int b){
             }
             else
             {
-                board_view[v][h] == 0;
+                // board_view[v][h] == 0;
                 printf(" - ");
             }
         };
@@ -95,6 +95,8 @@ void draw_board(char player, int a, int b){
     
 };
 
+
+// gets the input from players
 void get_input(int player){
     int ver, hor;
     if (current_player==BLACK)
@@ -108,7 +110,7 @@ void get_input(int player){
     }
     
     
-    printf("\nWhere do you want to put your piece?\nex.if vertical 4 and horizontal 5, please input 4 and 5\n");
+    
     printf("vertical position==> ");
     scanf("%d", &ver);
     printf("horizontal position==> ");
@@ -132,7 +134,7 @@ void get_input(int player){
 
 
 
-//board starts from 0
+//board starts like this
 char board[8][8] = { 
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
@@ -148,7 +150,8 @@ char board[8][8] = {
 
 
 
-
+// board shown to the user
+// I might delete this alltogether...
 void initial_board()
 {
     printf("\n");
@@ -159,26 +162,30 @@ void initial_board()
         {
             if (board[v][h] == BLACK)
             {
-                board_view[v][h] == 1;
+                // board_view[v][h] == 1;
                 printf(" x ");
             }
             else if (board[v][h] == WHITE)
             {
-                board_view[v][h] == 2;
+                // board_view[v][h] == 2;
                 printf(" o ");
 
             }
             else
             {
-                board_view[v][h] == 0;
+                // board_view[v][h] == 0;
                 printf(" - ");
             }
         };
 
         printf("\n");
     };
+    printf("\nWhere do you want to put your piece?\nex.if vertical 4 and horizontal 5, please input 4 and 5\n");
     get_input(current_player);
 };
+
+
+
 
 /* ################################ 
         1. Welcome Message
@@ -210,11 +217,14 @@ void welcome()
     }
 };
 
+
+
 /* ################################ 
             Game start
 ################################ */
 void game_start()
 {
+    system("@cls||clear");
     printf("\nRemember: Blacks start first.\n");
     initial_board();
 
@@ -229,6 +239,7 @@ void game_start()
 ################################ */
 void show_help()
 {
+    char back[1];
     struct Help
     {
         char origin[500];
@@ -254,8 +265,26 @@ void show_help()
     printf("%s", Help1.objective);
     printf("%s", Help1.start);
     printf("%s", Help1.moves);
-    printf("%s", Help1.final);
+    printf("%s\n", Help1.final);
+
+    printf("press B to go back to the main menu \n");
+    printf("write here==> ");
+    scanf("%c", &back);
+    if(strcmp(back, "b")==0 ||strcmp(back, "B")==0)
+    {
+        welcome();
+        /* code */
+    }
+    
+    
+
 };
+
+
+
+
+
+
 
 /* ################################ 
          main function
