@@ -37,21 +37,21 @@ void check_all(int a, int b);
 
 
 void hint_show(){
-    for (size_t i = 0; i < 8; i++)
+/*     for (size_t i = 0; i < 8; i++)
     {
         int a = empty_list[i][0];
         int b = empty_list[i][1];
         board[a][b]=OK;
-    }
+    } */
 }
 
 void hint_clear(){
-    for (size_t i = 0; i < 8; i++)
+/*     for (size_t i = 0; i < 8; i++)
     {
         int a = empty_list[i][0];
         int b = empty_list[i][1];
         board[a][b]=BLANK;
-    }
+    } */
     memset(empty_list, 0, sizeof(empty_list[0][0]) * 8 * 2); //stackoverflow
 }
 
@@ -59,9 +59,11 @@ void hint_clear(){
 
 
 // changes player turns from white to black and vice versa
+
 void change_player(){
+
     current_player = (current_player +1) % 2;
-    opposite_player = (current_player +1) % 2;
+    opposite_player = (current_player +1) % 2; 
     // clear_empty_list();
 }
 
@@ -73,7 +75,6 @@ void check_left(int a, int b){
     int initial_location=b;
     printf("\n");
     printf("left ");
-    // int left=board[a][b-1];
     for (b < 0; b--;)
     {
         printf(" ==> %d(%d,%d)", board[a][b], a,b);
@@ -93,7 +94,7 @@ void check_left(int a, int b){
                     board[a][q+1]=current_player;
                 }
                           
-                check_left(a,b+1);
+                check_left(a, b+1);
             }else
             {
                 break;
@@ -118,7 +119,7 @@ void check_right(int a, int b){
     int i=b+1;
     printf("\nright ");
     // int left=board[a][b-1];
-    for (i<8; i++;)
+    for (; i<8; i++)
     {
         
         printf(" ==> %d(%d,%d)", board[a][i],a,i);
@@ -241,7 +242,10 @@ void check_down(int a, int b){
 
 // left up == board(v-1,h-1) till either v=0 || h=0
 void check_left_up(int a, int b){
-    printf("\nthe left-up side is ");
+    int initial_A=a;
+    int initial_B=b;
+    
+    printf("\nleft-up ");
     int i= a-1;
     int j = b-1;
     while (i>-1 && j>-1)
@@ -249,17 +253,24 @@ void check_left_up(int a, int b){
         printf(" %d(%d,%d) ==> ",board[i][j], i,j);
         if (board[i][j]==opposite_player)
         {
+            // board[i][j]=current_player;
+            printf("\nopposite[%d] found. checking again...\n", opposite_player);
+            // i--;
+            // j--;
             check_left_up(i,j);
-            board[i][j]=current_player;
-            printf("opposite changed into current player...");
-            i--;
-            j--;
-            continue;
+            
         }else if (board[i][j]==current_player)
         {
             if (board[i+1][j+1]==opposite_player)
             {
-                board[i+1][j+1]=current_player;
+                printf("\nopposite found after current. should go into for loop\n");
+                for (i,j; i < initial_A || j < initial_B; i++, j++)
+                {
+                    printf("i,j(%d,%d) changing intto %d \n",i, j, current_player);
+                    board[i+1][j+1]=current_player;
+                }
+                
+                // board[i+1][j+1]=current_player;
                 check_left_up(i,j);
             }else
             {
@@ -282,7 +293,10 @@ void check_left_up(int a, int b){
 
 // right up  == board(v-1,h+1) till either v=0 || h=0
 void check_right_up(int a, int b){
-    printf("\nthe right-up side is ");
+    int initial_A=a;
+    int initial_B=b;
+    
+    printf("\nright-up ");
     int i= a-1;
     int j = b+1;
     while (i>-1 && j>-1 && i<8 && j<8)
@@ -290,17 +304,21 @@ void check_right_up(int a, int b){
         printf(" %d(%d,%d) ==> ",board[i][j], i,j);
         if (board[i][j]==opposite_player)
         {
+            // board[i][j]=current_player;
+            printf("\nopposite[%d] found. checking again...\n", opposite_player);
             check_right_up(i,j);
-            board[i][j]=current_player;
-            printf("opposite changed into current player...");
-            i--;
-            j++;
-            continue;
         }else if (board[i][j]==current_player)
         {
             if (board[i+1][j-1]==opposite_player)
             {
-                board[i+1][j-1]=current_player;
+                
+                printf("\nopposite found after current. should go into for loop\n");
+                for (i,j; i < initial_A || j < initial_B; i++, j--)
+                {
+                    printf("i,j(%d,%d) changing intto %d \n",i, j, current_player);
+                    board[i+1][j-1]=current_player;
+                }
+                // board[i+1][j-1]=current_player;
                 check_right_up(i,j);
             }else
             {
@@ -322,25 +340,32 @@ void check_right_up(int a, int b){
 
 // left down  == board(v+1,h-1) till either v=7 || h=7
 void check_left_down(int a, int b){
-    printf("\nthe left-down side is ");
+    int initial_A=a;
+    int initial_B=b;
+
+    printf("\nleft-down ");
     int i= a+1;
     int j = b-1;
-    while (i<8 && j<8 && i>-1 && j>-1)
+    while (i<8 && j<8 && i>=0 && j>=0)
     {
         printf(" %d(%d,%d) ==> ",board[i][j], i,j);
         if (board[i][j]==opposite_player)
         {
+            // board[i][j]=current_player;
+            printf("\nopposite[%d] found. checking again...\n", opposite_player);
             check_left_down(i,j);
-            board[i][j]=current_player;
-            printf("opposite changed into current player...");
-            i++;
-            j--;
-            continue;
         }else if (board[i][j]==current_player)
         {
             if (board[i-1][j+1]==opposite_player)
             {
-                board[i-1][j+1]=current_player;
+                printf("\nopposite found after current. should go into for loop\n");
+                for (i,j; i < initial_A || j < initial_B; i--, j++)
+                {
+                    printf("i,j(%d,%d) changing into %d \n",i, j, current_player);
+                    board[i-1][j+1]=current_player;
+                }
+                
+                // board[i-1][j+1]=current_player;
                 check_left_down(i,j);
             }else
             {
@@ -361,7 +386,9 @@ void check_left_down(int a, int b){
 
 // right down == board(v+1,h+1) till either v=7 || h=7
 void check_right_down(int a, int b){
-    printf("\nthe right-down side is ");
+    int initial_A=a;
+    int initial_B=b;
+    printf("\nright-down ");
     int i= a+1;
     int j = b+1;
     while (i<8 && j<8 && i>-1 && j>-1)
@@ -369,17 +396,21 @@ void check_right_down(int a, int b){
         printf(" %d(%d,%d) ==> ",board[i][j], i,j);
         if (board[i][j]==opposite_player)
         {
+            // board[i][j]=current_player;
+            printf("\nopposite found. checking again...\n");
             check_right_down(i,j);
-            board[i][j]=current_player;
-            printf("opposite changed into current player...");
-            i++;
-            j++;
-            continue;
         }else if (board[i][j]==current_player)
         {
             if (board[i-1][j-1]==opposite_player)
             {
-                board[i-1][j-1]=current_player;
+                printf("\nopposite found after current. should go into for loop\n");
+                for (i,j; i > initial_A || j > initial_B; i--, j--)
+                {
+                    printf("i,j(%d,%d) changing into %d \n",i, j, current_player);
+                    board[i-1][j-1]=current_player;
+                }
+                
+                // board[i-1][j-1]=current_player;
                 check_right_down(i,j);
             }else
             {
@@ -397,6 +428,8 @@ void check_right_down(int a, int b){
     }
 }
 
+
+
 void check_all(int a, int b){
         
         printf("\n");
@@ -405,10 +438,10 @@ void check_all(int a, int b){
         check_right(a,b);
         check_up(a,b);
         check_down(a,b);
-        // check_left_up(a,b);
-        // check_right_up(a,b);
-        // check_left_down(a,b);
-        // check_right_down(a,b);
+        check_left_up(a,b);
+        check_right_up(a,b);
+        check_left_down(a,b);
+        check_right_down(a,b);
     }
 
 
@@ -577,7 +610,9 @@ void get_input(int player){
 
 
 
-//board starts like this
+/* ################################ 
+        Board start
+################################ */
 char board[8][8] = { 
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
@@ -589,17 +624,20 @@ char board[8][8] = {
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
 };
 
+
 // test board
-/* char board[8][8] = { 
-    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
-    BLANK,WHITE,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
-    BLANK,WHITE,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
-    BLANK,WHITE,BLANK,BLACK,WHITE,BLANK,BLANK,BLANK,
-    BLANK,WHITE,BLANK,WHITE,BLACK,BLANK,BLANK,BLANK,
-    BLANK,WHITE,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
-    BLANK,WHITE,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
-    BLANK,BLACK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
-}; */
+
+// char board[8][8] = { 
+//     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+//     BLANK,BLACK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+//     BLANK,WHITE,BLACK,BLANK,BLANK,BLANK,BLANK,BLANK,
+//     BLANK,BLANK,WHITE,BLACK,WHITE,BLANK,BLANK,BLANK,
+//     BLANK,BLANK,BLANK,WHITE,BLACK,BLANK,BLANK,BLANK,
+//     BLANK,BLANK,BLANK,BLANK,WHITE,BLACK,BLANK,BLANK,
+//     BLANK,BLANK,BLANK,BLANK,BLANK,WHITE,BLACK,BLANK,
+//     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLACK,WHITE,
+// };
+
 
 
 
@@ -695,6 +733,15 @@ void game_start()
 };
 
 
+
+
+
+/* ################################ 
+            Game over [UNFINISHED]
+################################ */
+void game_over(){
+
+}
 
 
 
