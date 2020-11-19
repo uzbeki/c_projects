@@ -817,13 +817,13 @@ void draw_board(char player, int a, int b){
     black_count=0;
     white_count=0;
     empty_count=0;
+    printf("\n    1  2  3  4  5  6  7  8");
     printf("\n");
-    
     for (v = 0; v < 8; v++)
     {
+        printf(" %d ", v+1);
         for (h = 0; h < 8; h++)
         {
-            
             if (board[v][h] == BLACK)
             {
                 black_count++;
@@ -976,13 +976,14 @@ char board[8][8] = {
 // I might delete this alltogether...
 void initial_board()
 {
-    // hint_show();
+    printf("\n    1  2  3  4  5  6  7  8");
     printf("\n");
     for (v = 0; v < 8; v++)
     {
-
+        printf(" %d ", v+1);
         for (h = 0; h < 8; h++)
         {
+
             if (board[v][h] == BLACK)
             {
                 // board_view[v][h] == 1;
