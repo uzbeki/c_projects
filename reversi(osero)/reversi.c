@@ -408,7 +408,7 @@ void possible_move_reset(){
 // changes player turns from white to black and vice versa
 void change_player(){
     // possible_move_reset();
-    // possible_move_reset();
+    possible_move_reset();
     current_player = (current_player +1) % 2;
     opposite_player = (current_player +1) % 2; 
     // printf("\n\n......PLayer changed....\n");
@@ -817,13 +817,13 @@ void draw_board(char player, int a, int b){
     black_count=0;
     white_count=0;
     empty_count=0;
+    printf("\n    1  2  3  4  5  6  7  8");
     printf("\n");
-    
     for (v = 0; v < 8; v++)
     {
+        printf(" %d ", v+1);
         for (h = 0; h < 8; h++)
         {
-            
             if (board[v][h] == BLACK)
             {
                 black_count++;
@@ -856,7 +856,7 @@ void draw_board(char player, int a, int b){
             }
             else if (board[v][h] == OK)
             {
-                printf(" . ");
+                printf(" * ");
             }
             else
             {
@@ -929,7 +929,7 @@ void get_input(int player){
     }
     else
     {
-        printf("\nSorry, (%d,%d) is not permitted. Please choose another spot\n", ver, hor);
+        printf("\nSorry, (%d,%d) is not permitted. Please choose another spot\n", ver+1, hor+1);
         get_input(current_player);
     }
     
@@ -976,13 +976,14 @@ char board[8][8] = {
 // I might delete this alltogether...
 void initial_board()
 {
-    // hint_show();
+    printf("\n    1  2  3  4  5  6  7  8");
     printf("\n");
     for (v = 0; v < 8; v++)
     {
-
+        printf(" %d ", v+1);
         for (h = 0; h < 8; h++)
         {
+
             if (board[v][h] == BLACK)
             {
                 // board_view[v][h] == 1;
@@ -997,7 +998,7 @@ void initial_board()
             else if (board[v][h] == OK)
             {
                 // board_view[v][h] == 2;
-                printf(" . ");
+                printf(" * ");
 
             }
             else
@@ -1147,11 +1148,6 @@ void show_help()
     
 
 };
-
-
-
-
-
 
 
 /* ################################ 
