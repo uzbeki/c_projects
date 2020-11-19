@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>  //for using bool
+#include <ctype.h> //for confirming user input
 
 // majors
 #define BLANK 2
@@ -1136,17 +1137,20 @@ void show_help()
     printf("%s", Help1.moves);
     printf("%s\n", Help1.final);
 
-    printf("press B to go back to the main menu \n");
-    printf("write here==> ");
-    scanf("%c", &back);
+    printf("\tpress B to go back to the main menu \n");
+    printf("\nwrite here ==> ");
+    scanf("%s", back);
     if(strcmp(back, "b")==0 ||strcmp(back, "B")==0)
     {
+        system("@cls||clear");
         welcome();
-        /* code */
+    }else
+    {
+        system("@cls||clear");
+        show_help();
     }
     
     
-
 };
 
 
