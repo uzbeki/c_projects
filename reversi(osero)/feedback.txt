@@ -1,0 +1,23 @@
+game_over()
+possible_moves()
+japanese characters
+
+summarize all functions in one
+
+use head file 
+
+print a line 
+
+// function explanation in detail + arguments
+//author
+    
+
+/****************************************************************
+ * Function: トレーニング前のサウンドファイル確認モーダルを開く
+ * Remarks :
+ * Author : masato.sasaki@asterone.co.jp
+ * Date : 2020/11/04
+****************************************************************/
+
+
+readable code
