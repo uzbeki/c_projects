@@ -288,6 +288,7 @@ void possible_moves()
     {
       if (board[v][h] == current_player)
       {
+        printf("possible moves for (%d, %d)\n", v,h);
         possible_all(v, h);
       }
     }
@@ -305,7 +306,7 @@ void possible_move_reset()
       if (board[v][h] == OK)
       {
         board[v][h] = BLANK;
-        //    printf("\n\tCHanging (%d,%d) into blanks",v,h);
+        printf("\n\tresetting (%d,%d) into blanks",v,h);
       }
     }
   }
@@ -803,7 +804,7 @@ void get_input(int player)
 /* ################################
         Board template
 ################################ */
-char board[8][8] = {
+/* char board[8][8] = {
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
@@ -812,6 +813,16 @@ char board[8][8] = {
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+}; */
+char board[8][8] = {
+    WHITE,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLACK,BLANK,WHITE,WHITE,BLANK,WHITE,BLANK,
+    BLANK,BLANK,BLACK,BLANK,BLANK,WHITE,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLACK,WHITE,BLANK,BLANK,BLANK,
+    BLANK,WHITE,WHITE,WHITE,BLACK,WHITE,WHITE,BLANK,
+    BLANK,BLANK,WHITE,BLANK,BLANK,BLACK,BLANK,BLANK,
+    BLANK,WHITE,BLANK,WHITE,WHITE,BLANK,BLACK,BLANK,
+    BLACK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
 };
 
 /* ################################
@@ -832,7 +843,7 @@ void initial_board()
       if (board[v][h] == BLACK)
       {
         // board_view[v][h] == 1;
-        printf("  ● ");
+        printf("  x ");
       }
       else if (board[v][h] == WHITE)
       {
