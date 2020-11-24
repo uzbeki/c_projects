@@ -3,7 +3,9 @@
 
     author: Bekhruz Otaev
     e-mail: beki@asterone.co.jp
-    date:   November 20, 2020
+    date:   November 24s, 2020
+    
+    The game runs smoothly on Windows with Japanese Lanaguage Support.
 */
 
 // header files
@@ -20,7 +22,6 @@
 #define OK 3
 #define COLOR_GREEN   "\x1b[32m"
 #define COLOR_CYAN    "\x1b[37m"
-// #define COLOR_LIGHT_RED    "\x1b[31m"
 #define COLOR_RED    "\x1b[31m"
 #define COLOR_RESET   "\x1b[30m"
 
