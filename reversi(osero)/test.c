@@ -18,6 +18,12 @@
 #define BLACK 1
 #define WHITE 0
 #define OK 3
+#define COLOR_GREEN   "\x1b[32m"
+#define COLOR_CYAN    "\x1b[37m"
+// #define COLOR_LIGHT_RED    "\x1b[31m"
+#define COLOR_RED    "\x1b[31m"
+#define COLOR_RESET   "\x1b[30m"
+
 
 void show_help();
 void draw_board(char p, int a, int b);
@@ -36,6 +42,7 @@ int opposite_player = WHITE;
 int black_count = 0;
 int white_count = 0;
 int empty_count = 0;
+int move_count = 1;
 int empty_list[8][2];
 int init_left;
 int init_a;
@@ -48,22 +55,29 @@ int init_b;
 ################################ */
 void possible_left(int a, int b)
 {
+  // printf("possible left (%d,%d)\n", a+1, b+1);
   for (b < 0; b--;)
   {
     if (board[a][b] == opposite_player)
     {
-      // printf("\nleft opposite[%d](%d, %d) found. checking again...\n",
-      // opposite_player, a, b);
+      // printf("\nleft opposite[%d](%d, %d) found. checking again...\n", opposite_player, a, b);
       possible_left(a, b);
     }
     else if (board[a][b] == BLANK)
     {
       if (board[a][b + 1] == opposite_player)
       {
+        // printf("\n(%d,%d) changed into OK\n", a+1, b+1);
         board[a][b] = OK;
+        move_count++;
+        break; //without this, the loop continues again
+      }
+      else
+      {
+        break;
       }
     }
-    else if (board[a][b] == current_player)
+    else if (board[a][b] == current_player || board[a][b] == OK)
     {
       break;
     }
@@ -72,23 +86,30 @@ void possible_left(int a, int b)
 
 void possible_right(int a, int b)
 {
+  // printf("possible right (%d,%d)\n", a+1, b+1);
   int i = b + 1;
   for (; i < 8; i++)
   {
     if (board[a][i] == opposite_player)
     {
-      // printf("\nright opposite[%d](%d, %d) found. checking again...\n",
-      // opposite_player, a, i);
+      // printf("\nright opposite[%d](%d, %d) found. checking again...\n", opposite_player, a, i);
       possible_right(a, i);
     }
     else if (board[a][i] == BLANK)
     {
       if (board[a][i - 1] == opposite_player)
       {
+        // printf("\n(%d,%d) changed into OK\n", a+1, i+1);
         board[a][i] = OK;
+        move_count++;
+        break;
+      }
+      else
+      {
+        break;
       }
     }
-    else if (board[a][i] == current_player)
+    else if (board[a][i] == current_player || board[a][b] == OK)
     {
       break;
     }
@@ -97,23 +118,30 @@ void possible_right(int a, int b)
 
 void possible_up(int a, int b)
 {
+  // printf("possible up (%d,%d)\n", a+1, b+1);
   int i = a - 1;
   for (i; i > -1; i--)
   {
     if (board[i][b] == opposite_player)
     {
-      // printf("\nup opposite[%d](%d, %d) found. checking again...\n",
-      // opposite_player, i, b);
+      // printf("\nup opposite[%d](%d, %d) found. checking again...\n", opposite_player, i, b);
       possible_up(i, b);
     }
     else if (board[i][b] == BLANK)
     {
       if (board[i + 1][b] == opposite_player)
       {
+        // printf("\n(%d,%d) changed into OK\n", i+1, b+1);
         board[i][b] = OK;
+        move_count++;
+        break;
+      }
+      else
+      {
+        break;
       }
     }
-    else if (board[i][b] == current_player)
+    else if (board[i][b] == current_player || board[i][b] == OK)
     {
       break;
     }
@@ -122,23 +150,30 @@ void possible_up(int a, int b)
 
 void possible_down(int a, int b)
 {
+  // printf("possible down (%d,%d)\n", a+1, b+1);
   int i = a + 1;
   for (i; i < 8; i++)
   {
     if (board[i][b] == opposite_player)
     {
-      // printf("\ndown opposite[%d] (%d, %d)found. checking again...\n",
-      // opposite_player, i, b);
+      // printf("\ndown opposite[%d] (%d, %d)found. checking again...\n", opposite_player, i, b);
       possible_down(i, b);
     }
     else if (board[i][b] == BLANK)
     {
       if (board[i - 1][b] == opposite_player)
       {
+        // printf("\n(%d,%d) changed into OK\n", i+1, b+1);
         board[i][b] = OK;
+        move_count++;
+        break;
+      }
+      else
+      {
+        break;
       }
     }
-    else if (board[i][b] == current_player)
+    else if (board[i][b] == current_player || board[i][b] == OK)
     {
       break;
     }
@@ -147,6 +182,7 @@ void possible_down(int a, int b)
 
 void possible_left_up(int a, int b)
 {
+  // printf("possible left-up (%d,%d)\n", a+1, b+1);
   int initial_A = a;
   int initial_B = b;
   int i = a - 1;
@@ -155,8 +191,7 @@ void possible_left_up(int a, int b)
   {
     if (board[i][j] == opposite_player)
     {
-      // printf("\nleft up opposite[%d] (%d, %d)found. checking again...\n",
-      // opposite_player, i, j);
+      // printf("\nleft up opposite[%d] (%d, %d)found. checking again...\n", opposite_player, i, j);
       possible_left_up(i, j);
     }
     else if (board[i][j] == BLANK)
@@ -164,9 +199,16 @@ void possible_left_up(int a, int b)
       if (board[i + 1][j + 1] == opposite_player)
       {
         board[i][j] = OK;
+        move_count++;
+        // printf("\n(%d,%d) changed into OK\n", i+1, j+1);
+        break;
+      }
+      else
+      {
+        break;
       }
     }
-    else if (board[i][j] == current_player)
+    else if (board[i][j] == current_player || board[i][j] == OK)
     {
       break;
     }
@@ -177,6 +219,7 @@ void possible_left_up(int a, int b)
 
 void possible_right_up(int a, int b)
 {
+  // printf("possible right-up (%d,%d)\n", a+1, b+1);
   int initial_A = a;
   int initial_B = b;
 
@@ -186,8 +229,7 @@ void possible_right_up(int a, int b)
   {
     if (board[i][j] == opposite_player)
     {
-      // printf("\nright up opposite[%d](%d, %d) found. checking again...\n",
-      // opposite_player, i, j);
+      // printf("\nright up opposite[%d](%d, %d) found. checking again...\n", opposite_player, i, j);
       possible_right_up(i, j);
     }
     else if (board[i][j] == BLANK)
@@ -195,9 +237,16 @@ void possible_right_up(int a, int b)
       if (board[i + 1][j - 1] == opposite_player)
       {
         board[i][j] = OK;
+        move_count++;
+        // printf("\n(%d,%d) changed into OK\n", i+1, j+1);
+        break;
+      }
+      else
+      {
+        break;
       }
     }
-    else if (board[i][j] == current_player)
+    else if (board[i][j] == current_player || board[i][j] == OK)
     {
       break;
     }
@@ -208,6 +257,7 @@ void possible_right_up(int a, int b)
 
 void possible_left_down(int a, int b)
 {
+  // printf("possible left-down (%d,%d)\n", a+1, b+1);
   int initial_A = a;
   int initial_B = b;
 
@@ -217,8 +267,7 @@ void possible_left_down(int a, int b)
   {
     if (board[i][j] == opposite_player)
     {
-      // printf("\nleft down opposite[%d] (%d, %d)found. checking again...\n",
-      // opposite_player, i, j);
+      // printf("\nleft down opposite[%d] (%d, %d)found. checking again...\n", opposite_player, i, j);
       possible_left_down(i, j);
     }
     else if (board[i][j] == BLANK)
@@ -226,19 +275,27 @@ void possible_left_down(int a, int b)
       if (board[i - 1][j + 1] == opposite_player)
       {
         board[i][j] = OK;
+        move_count++;
+        // printf("\n(%d,%d) changed into OK\n", i+1, j+1);
+        break;
+      }
+      else
+      {
+        break;
       }
     }
-    else if (board[i][j] == current_player)
+    else if (board[i][j] == current_player || board[i][j] == OK)
     {
       break;
     }
     i++;
     j--;
-  }
+  };
 }
 
 void possible_right_down(int a, int b)
 {
+  // printf("possible right-down (%d,%d)\n", a+1, b+1);
   int initial_A = a;
   int initial_B = b;
   int i = a + 1;
@@ -247,8 +304,7 @@ void possible_right_down(int a, int b)
   {
     if (board[i][j] == opposite_player)
     {
-      // printf("\nright down opposite(%d, %d) found. checking again...\n", i,
-      // j);
+      // printf("\nright down opposite(%d, %d) found. checking again...\n", i, j);
       possible_right_down(i, j);
     }
     else if (board[i][j] == BLANK)
@@ -256,9 +312,16 @@ void possible_right_down(int a, int b)
       if (board[i - 1][j - 1] == opposite_player)
       {
         board[i][j] = OK;
+        // printf("\n(%d,%d) changed into OK\n", i+1, j+1);
+        move_count++;
+        break;
+      }
+      else
+      {
+        break;
       }
     }
-    else if (board[i][j] == current_player)
+    else if (board[i][j] == current_player || board[i][j] == OK)
     {
       break;
     }
@@ -288,11 +351,17 @@ void possible_moves()
     {
       if (board[v][h] == current_player)
       {
-        printf("possible moves for (%d, %d)\n", v,h);
+        // printf("c.p. possible moves for (%d, %d)\n", v,h);
         possible_all(v, h);
       }
     }
   }
+  if (move_count<=0)
+  {
+    // printf("move count is less than or equal to zero - %d\n", move_count);
+    game_over();
+  }
+
 }
 
 // resets possible moves
@@ -306,7 +375,7 @@ void possible_move_reset()
       if (board[v][h] == OK)
       {
         board[v][h] = BLANK;
-        printf("\n\tresetting (%d,%d) into blanks",v,h);
+        // printf("\n\tresetting (%d,%d) into blanks", v, h);
       }
     }
   }
@@ -678,6 +747,7 @@ void draw_board(char player, int a, int b)
   black_count = 0;
   white_count = 0;
   empty_count = 0;
+  move_count = 0;
   printf("\n     1   2   3   4   5   6   7   8");
   printf("\n");
   for (v = 0; v < 8; v++)
@@ -689,7 +759,7 @@ void draw_board(char player, int a, int b)
       if (board[v][h] == BLACK)
       {
         black_count++;
-        printf("  ● ");
+        printf("  x ");
       }
       else if (board[v][h] == WHITE)
       {
@@ -702,7 +772,7 @@ void draw_board(char player, int a, int b)
         {
           board[a][b] = BLACK;
           black_count++;
-          printf("  ● ", board[a][b]);
+          printf("  x ", board[a][b]);
         }
         else
         {
@@ -715,41 +785,33 @@ void draw_board(char player, int a, int b)
       }
       else if (board[v][h] == OK)
       {
-        printf("  · ");
+        printf(COLOR_RED "  · " COLOR_RESET);
       }
       else
       {
         // board_view[v][h] == 0;
         empty_count++;
-        printf("  - ");
+        printf(COLOR_CYAN "  - " COLOR_RESET);
       }
     };
     printf("\n");
   };
 
   possible_move_reset();
-  // count(&black_count, &white_count, &empty_count);
-  // UNFINISHED
   if (black_count == 0)
   {
-    // printf("\nBlacks lost");
-    // printf("\n\twinner - ****WHITE****");
     game_over();
   }
   else if (white_count == 0)
   {
-    // printf("\nBlacks lost");
-    // printf("\n\twinner - ****WHITE****");
     game_over();
   }
-  else if (empty_count == 0 || black_count + white_count >= 64)
+  else if (black_count + white_count >= 64)
   {
-    // printf("\nBlacks lost");
-    // printf("\n\twinner - ****WHITE****");
     game_over();
   }
-  printf("Scores: x=%d, o=%d\n", black_count, white_count);
 
+  printf("Scores: x=%d, o=%d\n", black_count, white_count);
   get_input(current_player);
 };
 
@@ -764,11 +826,11 @@ void get_input(int player)
   int ver, hor;
   if (current_player == BLACK)
   {
-    printf("\tBLACK [x] moves\n");
+    printf(COLOR_GREEN "\tBLACK [x] moves\n" COLOR_RESET);
   }
   else
   {
-    printf("\tWHITE [o] moves\n");
+    printf(COLOR_GREEN "\tWHITE [o] moves\n" COLOR_RESET);
   }
 
   printf("vertical position ==> ");
@@ -814,17 +876,31 @@ void get_input(int player)
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
 }; */
+
+// test board
 char board[8][8] = {
-    WHITE,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
-    BLANK,BLACK,BLANK,WHITE,WHITE,BLANK,WHITE,BLANK,
-    BLANK,BLANK,BLACK,BLANK,BLANK,WHITE,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLACK,WHITE,BLANK,BLANK,BLANK,
-    BLANK,WHITE,WHITE,WHITE,BLACK,WHITE,WHITE,BLANK,
-    BLANK,BLANK,WHITE,BLANK,BLANK,BLACK,BLANK,BLANK,
-    BLANK,WHITE,BLANK,WHITE,WHITE,BLANK,BLACK,BLANK,
-    BLACK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,WHITE,BLACK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
+    BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
 };
 
+// game_over checking board
+/*   char board[8][8] = {
+    WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,BLANK,BLACK,
+    WHITE,WHITE,WHITE,BLACK,BLACK,WHITE,WHITE,WHITE,
+    BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,
+    BLACK,BLACK,BLACK,BLACK,WHITE,BLACK,BLACK,WHITE,
+    BLACK,BLACK,BLACK,WHITE,BLACK,WHITE,BLACK,WHITE,
+    BLACK,BLACK,WHITE,BLACK,WHITE,WHITE,WHITE,WHITE,
+    WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,
+    WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,
+};
+ */
 /* ################################
     very first board the user
     sees when he/she starts
@@ -853,21 +929,19 @@ void initial_board()
       else if (board[v][h] == OK)
       {
         // board_view[v][h] == 2;
-        printf("  · ");
+        printf(COLOR_RED "  · " COLOR_RESET);
       }
       else
       {
         // board_view[v][h] == 0;
-        printf("  - ");
+        printf(COLOR_CYAN "  - " COLOR_RESET);
       }
     };
 
     printf("\n");
   };
   possible_move_reset();
-  printf(
-      "\nWhere do you want to put your piece?\nex.if vertical 4 and horizontal "
-      "5, please input 4 and 5\n");
+  printf("\nWhere do you want to put your piece?\nex.if vertical=4 and horizontal=5, please input 4 and 5\n");
   get_input(current_player);
 };
 
@@ -927,33 +1001,44 @@ void game_start()
 };
 
 /* ################################
-            Game over
+            Game over function
+Scenarios when it is over:
+- Blacks are 0, and Whites are less than 64
+- Whites are 0, and Blacks are less than 64
+- Board is full or there is no place to move
 ################################ */
 void game_over()
 {
-  if (black_count == 0 && white_count == 64)
+  printf("\n#######################################");
+  if (black_count == 0 && white_count >= 64)
   {
-    printf("\nThe black side lost with %d to %d", black_count, white_count);
-    printf("\n\twinner - ****WHITE****\n");
+    printf("\nThe black side lost.\nBlack - %d, White - %d", black_count, white_count);
+    printf("\n\nWinner:\t****WHITE****\n");
   }
-  else if (white_count == 0 && black_count == 64)
+  else if (white_count == 0 && black_count >= 64)
   {
-    printf("\nThe white side lost with %d to %d", white_count, black_count);
-    printf("\n\twinner - ****BLACK****\n");
+    printf("\nThe white side lost.\nWhite - %d, Black - %d", white_count, black_count);
+    printf("\n\nWinner:\t****BLACK****\n");
   }
-  else if (black_count + white_count == 64)
+  else if (black_count + white_count == 64 || move_count<=0 )
   {
     if (black_count > white_count)
     {
-      printf("\nThe white side lost with %d to %d", white_count, black_count);
-      printf("\n\twinner - ****BLACK****\n");
+      printf("\nThe white side lost.\nWhite - %d, Black - %d", white_count, black_count);
+      printf("\n\nWinner:\t****BLACK****\n");
     }
     else if (black_count < white_count)
     {
-      printf("\nThe black side lost with %d to %d", black_count, white_count);
-      printf("\n\twinner - ****WHITE****\n");
+      printf("\nThe black side lost.\nBlack - %d, White - %d", black_count, white_count);
+      printf("\n\nWinner:\t**** WHITE ****\n");
+    }
+    else if (black_count == white_count)
+    {
+      printf("\nIt is a draw!!! Black - %d, White - %d\n", black_count, white_count);
     }
   }
+  printf("#######################################\n");
+  system("pause");
 }
 
 /* ################################
@@ -1057,8 +1142,28 @@ void show_help()
 ################################ */
 int main()
 {
-  welcome();
+ 
 
+  /* Some list of combinations 
+    0 = Black 
+    1 = Blue 
+    2 = Green 
+    3 = Aqua 
+    4 = Red 
+    5 = Purple 
+    6 = Yellow 
+    7 = White 
+    8 = Gray
+    9 = Light Blue
+    A = Light Green
+    B = Light Aqua
+    C = Light Red
+    D = Light Purple
+    E = Light Yellow
+    F = Bright White */
+  
+  system("COLOR F0"); /* This will change the bgcolor F - White and textcolor to 2- Green */ 
+  welcome();
   system("pause");
   return 0;
 };
