@@ -385,10 +385,10 @@ void possible_move_reset()
 // changes player turns from white to black and vice versa
 void change_player()
 {
+  // printf("\n\n\t\t......move reset on player change....\n");
   possible_move_reset();
   current_player = (current_player + 1) % 2;
   opposite_player = (current_player + 1) % 2;
-  // printf("\n\n......PLayer changed....\n");
   possible_moves();
 }
 
@@ -734,6 +734,7 @@ bool is_blank(int a, int b)
     return false;
     /* code */
   }
+  possible_move_reset();
 };
 
 /* ################################
@@ -879,7 +880,7 @@ void get_input(int player)
 }; */
 
 // test board
-char board[8][8] = {
+/* char board[8][8] = {
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
@@ -888,10 +889,10 @@ char board[8][8] = {
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
     BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,BLANK,
-};
+}; */
 
 // game_over checking board
-/*   char board[8][8] = {
+  char board[8][8] = {
     WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,BLANK,BLACK,
     WHITE,WHITE,WHITE,BLACK,BLACK,WHITE,WHITE,WHITE,
     BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,BLACK,WHITE,
@@ -901,7 +902,7 @@ char board[8][8] = {
     WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,
     WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,WHITE,
 };
- */
+
 /* ################################
     very first board the user
     sees when he/she starts
