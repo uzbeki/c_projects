@@ -1,31 +1,37 @@
 flow of the game:
 main()
-welcome()
-  if choice == s:
-    game_start()
-      possible_moves()
-      initial_board()
+  welcome()
+  possible_moves()
+
+  while(!game_over()){
+      draw_board()
+      get_input()
+        is_ok()
+      check_all()
+      change_player()
         possible_move_reset()
-        get_input()
-          is_blank()
-            possible_moves();
-            possible_move_reset();
-          check_all()
-          draw_board()
-            change_player()
-              possible_move_reset()
-              possible_moves()
+        possible_moves()
+      is_over()
+  }
+
+united OK functions, rearranged the game flow, bug fixes
 
 
 
-
-
-
-
-
-
-
-
+###################################
+BOARD size change formula
+but if changes, the size should be
+an even number.
+-------------------
+for board[size][size]:
+center_a = (size/2)
+center_b = center_a+1
+--------------------
+board[center_a][center_a]
+board[center_b][center_b]
+board[center_a][center_b]
+board[center_b][center_a]
+###################################
 
 Start screen - 
 ***********************************
