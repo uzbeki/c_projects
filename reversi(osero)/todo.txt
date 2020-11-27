@@ -1,0 +1,67 @@
+チャレンジ要素（感想）
+
+・show_help functionの文字列を定数化したい。
+
+　定数化した文字列の宣言はヘッダファイルに入れたい。
+
+　ヘルプ文字は変更しないのでconst化したい。
+
+・Magic numberをやめる。
+
+　ex.：8
+
+　　→定数（#defineで宣言したもの）に置き換える。
+
+・possibleとcheckで似たような処理があるのでまとめる方法を考えてみてほしい。
+これ場合によってはすごく難しいです。
+考え方を変えないとできないと思います。
+
+全体的にソースも短くなり良くなってきています。ここからはチャレンジ的要素になります。
+
+追加対応要素。マスの指定を別々の変数で扱っているところを
+ 
+   struct point {
+        int  x;
+        int  y;
+    };
+ 
+このような構造体に置き換えてやると良いと思います。
+
+bool is_ok(int a, int b) {
+ここに引数を構造体にしたい。
+bool is_ok(struct point input)
+
+追加対応要素。可能であれば、グローバル変数を少しでも減らす。
+グローバル変数が多いプログラムは複雑になりがちなので、なるべく使わない努力をしてみましょう。
+とはいっても使うところは使わないといけないので、その加減が難しいですが・・
+ 
+char board[8][8];
+int current_player = BLACK;
+int opposite_player = WHITE;
+int winning = BLANK;
+int black_count = 0;
+int white_count = 0;
+int blank_count = 0;
+int ok_count = 0;
+int v, h, ver, hor, ver, hor;
+bool game_over = false;
+
+では、先ずは簡単に
+引数で座標をポインタ渡ししてみましょう。
+ 
+関数の宣言を以下のようにして、呼び出し元でポインタ渡しをしましょう。
+
+
+bool is_ok(struct point *input)
+あっポインタの場合中身触られると問題がでそうなので、
+bool is_ok(const struct point *input)
+この流れで
+
+機能はさておき、
+
+
+・変数の数が少ない
+
+・行数が少ない
+
+ここはまねて行きたいですね。

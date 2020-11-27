@@ -9,6 +9,7 @@
 #define BLACK 1
 #define BLANK 2
 #define OK 3
+#define BOARD_SIZE 8
 #define COLOR_GREEN   "\x1b[32m"
 #define COLOR_CYAN    "\x1b[37m"
 #define COLOR_RED    "\x1b[31m"
@@ -43,13 +44,8 @@ void finish();
 void get_input();
 void check_all(int a, int b);
 
-char board[8][8];
 int current_player = BLACK;
 int opposite_player = WHITE;
 int winning = BLANK;
-int black_count = 0;
-int white_count = 0;
-int blank_count = 0;
-int ok_count = 0;
-int v, h, ver, hor, ver, hor;
+int black_count, white_count, blank_count, ok_count, v, h, ver, hor, ver, hor;
 bool game_over = false;
