@@ -4,8 +4,8 @@ functions that check for
 2. available spots for the current_player
  */
 
-#include "reversi.c"
-
+#include "game.c"
+#include "declarations.h"
 
 
 /* ################################
@@ -41,7 +41,7 @@ void check_left(int a, int b)
     {
       if (flag==true)
       {
-        for (size_t q = init_b-1; q > i; q--)
+        for (size_t q = hor-1; q > i; q--)
         {
           printf("\n(%d,%d)changed into %d)", a,q, current_player);
           board[a][q] = current_player;
@@ -74,7 +74,7 @@ void check_right(int a, int b){
       // printf("current p found\n");
       if ( flag == true ) {
         //ok
-        for (size_t j = init_b+1; j < i; j++) {
+        for (size_t j = hor+1; j < i; j++) {
           board[a][j] = current_player;  
           // printf("(%d,%d) changed\n", a,j);
         }
@@ -108,7 +108,7 @@ void check_up(int a, int b)
     {
       if (flag==true)
       {
-        for (size_t q = init_a-1; q > i; q--)
+        for (size_t q = ver-1; q > i; q--)
         {
           printf("\n(%d,%d)changed into %d)", q-1, b, current_player);
           board[q][b] = current_player;
@@ -141,7 +141,7 @@ void check_down(int a, int b)
     {
       if (flag==true)
       {
-        for (size_t q = init_a+1; q < i; q++)
+        for (size_t q = ver+1; q < i; q++)
         {
           printf("\n(%d,%d)changed into %d)", q-1, b, current_player);
           board[q][b] = current_player;
@@ -176,7 +176,7 @@ void check_left_up(int a, int b)
       if (flag==true)
       {
         int q,w;
-        for (q = init_a-1, w = init_b-1; q>i && w>j; q--, w--)
+        for (q = ver-1, w = hor-1; q>i && w>j; q--, w--)
         {
           board[q][w]=current_player;
         }
@@ -209,7 +209,7 @@ void check_right_up(int a, int b)
       if (flag==true)
       {
         int q,w;
-        for (q = init_a-1, w = init_b+1; q>i && w<j; q--, w++)
+        for (q = ver-1, w = hor+1; q>i && w<j; q--, w++)
         {
           board[q][w]=current_player;
         }
@@ -243,7 +243,7 @@ void check_left_down(int a, int b)
       if (flag==true)
       {
         int q,w;
-        for (q = init_a+1, w = init_b-1; q<i && w>j; q++, w--)
+        for (q = ver+1, w = hor-1; q<i && w>j; q++, w--)
         {
           board[q][w]=current_player;
         }
@@ -276,7 +276,7 @@ void check_right_down(int a, int b)
       if (flag==true)
       {
         int q,w;
-        for (q = init_a+1, w = init_b+1; q<i && w<j; q++, w++)
+        for (q = ver+1, w = hor+1; q<i && w<j; q++, w++)
         {
           board[q][w]=current_player;
         }
@@ -331,7 +331,7 @@ void possible_left(int a, int b)
       if (flag==true)
       {
         board[a][i]=OK;
-        move_count++;
+        ok_count++;
         return;
       }
       return;
@@ -358,7 +358,7 @@ void possible_right(int a, int b)
       {
         // printf("\n(%d,%d) changed into OK\n", a+1, i+1);
         board[a][i] = OK;
-        move_count++;
+        ok_count++;
         // printf("(%d,%d)changed into OK\n", a,i);
         return;
       }
@@ -386,7 +386,7 @@ void possible_up(int a, int b)
       {
         // printf("\n(%d,%d) changed into OK\n", i+1, b+1);
         board[i][b] = OK;
-        move_count++;
+        ok_count++;
         return;
       }
       return;
@@ -413,7 +413,7 @@ void possible_down(int a, int b)
       {
         // printf("\n(%d,%d) changed into OK\n", i+1, b+1);
         board[i][b] = OK;
-        move_count++;
+        ok_count++;
         return;
       }
       return;
