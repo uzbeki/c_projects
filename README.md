@@ -22,6 +22,6 @@ Then, run this command from the same directory that your .c file is in.
 gcc -o game game.c
 ```
 #### little explanation
-```gcc -o``` section tells the compiler that youa re going to compile a file. next ```game``` you can call it whatever you want, it will be the name of the .exe file. ```game.c``` is the path to the .c file itself. That's it! Now you know how to compile any .c file!
+```gcc -o``` section tells the compiler that you are going to compile a file. The next part - ```game```,  you can call it whatever you want, it will be the name of the .exe file. ```game.c``` is the path to the .c file itself. That's it! Now you know how to compile any .c file!
 
 This command compiles .c file and turns it into a binary executable file(.exe). Now all you need to do is to type ```game``` into the console or double click on the game.exe file.
