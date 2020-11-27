@@ -7,7 +7,7 @@
 
     The game runs smoothly on Windows with Japanese Lanaguage Support.
 */
-#include "declarations.h"
+#include "declarations.h" // all declared variables, functions, etc 
 
 /* ################################
     Function that look for
@@ -181,23 +181,32 @@ void draw_board() {
     location input from the user
 ################################ */
 void get_input() {
+  char str[30];
+  char* ptr;
   if (current_player == BLACK) {
     printf("\n\n\tBLACK [x] moves\n");
   } else {
     printf("\n\n\tWHITE [o] moves\n");
   }
   printf("vertical position ==> ");
-  scanf("%d", &ver);
+  scanf("%s", str);
+  ver = strtol(str, &ptr, 0);
   printf("horizontal position ==> ");
-  scanf("%d", &hor);
-  ver--;
-  hor--;
-  if (!is_ok(ver, hor)) {
-    printf(COLOR_RED "\nSorry, (%d,%d) is not permitted. Please choose another spot" COLOR_RESET,
-      ver + 1, hor + 1);
+  scanf("%s", str);
+  hor = strtol(str, &ptr, 0);
+  if (ver <= 0 || hor <= 0 || hor > 8 || ver > 8) {
+    printf(COLOR_RED "\nPlease enter the baord numbers(1-8) only" COLOR_RESET, ver, hor);
     get_input();
+  } else {
+    ver--;
+    hor--;
+    if (!is_ok(ver, hor)) {
+      printf(COLOR_RED "\nSorry, (%d,%d) is not available. \nPlease choose one of the red spots" COLOR_RESET,
+        ver + 1, hor + 1);
+      get_input();
+    }
+    board[ver][hor] = current_player; //put the piece on the board
   }
-  board[ver][hor] = current_player; //put the piece on the board
 }
 
 /* ################################
@@ -357,7 +366,7 @@ void show_help() {
          main function
 ################################ */
 int main() {
-  system("COLOR F0"); /* This will change the bgcolor F - White and textcolor to 2- Green */ 
+  system("COLOR F0"); /* This will change the bgcolor F - White and textcolor to 2- Green */
   welcome();
   system("@cls||clear");
   possible_moves();

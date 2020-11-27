@@ -4,8 +4,6 @@
 
 - [About](#about)
 - [Reversi Game](#reversi)
-- [Usage](#usage)
-- [Contributing](../CONTRIBUTING.md)
 
 ## About <a name = "about"></a>
 
@@ -17,30 +15,13 @@ Reversi is a board game for two players played on an 8x8 board. It is also calle
 
 ### How to compile .c files
 
-In order to compile .c files on your computer, you need gcc 
+In order to compile .c files on your computer, you need gcc installed. Please go to [this website](https://gcc.gnu.org/install/binaries.html) and install it first, if you haven't already. 
 
+Then, run this command from the same directory that your .c file is in. 
 ```
-Give examples
+gcc -o game game.c
 ```
+#### little explanation
+```gcc -o``` section tells the compiler that youa re going to compile a file. next ```game``` you can call it whatever you want, it will be the name of the .exe file. ```game.c``` is the path to the .c file itself. That's it! Now you know how to compile any .c file!
 
-### Installing
-
-A step by step series of examples that tell you how to get a development env running.
-
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo.
-
-## Usage <a name = "usage"></a>
-
-Add notes about how to use the system.
+This command compiles .c file and turns it into a binary executable file(.exe). Now all you need to do is to type ```game``` into the console or double click on the game.exe file.
