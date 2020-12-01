@@ -39,10 +39,6 @@ char direction_point[DIRECTION_MAX][2] = {
 };
 
 void show_help();
-void draw_board();
-void finish();
-void get_input();
-void check_all(int a, int b);
 
 int current_player = BLACK;
 int opposite_player = WHITE;

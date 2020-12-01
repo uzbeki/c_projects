@@ -16,8 +16,6 @@ main()
 
 united OK functions, rearranged the game flow, bug fixes
 
-
-
 ###################################
 BOARD size change formula
 but if changes, the size should be

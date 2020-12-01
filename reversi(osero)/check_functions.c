@@ -291,7 +291,31 @@ void check_right_down(int a, int b)
   }
 }
 
-
+/* ################################
+  check whether pieces can be
+  outflanked for the current_player
+  in ONE function!
+################################ */
+// void check(int a, int b, int direction) {
+//   int a_changed = direction_point[direction][0];
+//   int b_changed = direction_point[direction][1];
+//   bool flag = false;
+//   int i, j, q, w;
+//   for (i = a + a_changed, j = b + b_changed; i >= 0 && j >= 0 && i < BOARD_SIZE && j < BOARD_SIZE; i += a_changed, j += b_changed) {
+//     if (board[i][j] == opposite_player) {
+//       flag = true;
+//       continue;
+//     } else if (board[i][j] == current_player) {
+//       if (flag) {
+//         for (q = ver + a_changed, w = hor + b_changed; q != i || w != j; q += a_changed, w += b_changed) {
+//           board[q][w] = current_player;
+//         }
+//       }
+//       return;
+//     }
+//     return;
+//   }
+// }
 
 
 

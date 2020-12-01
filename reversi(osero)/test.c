@@ -1,8 +1,7 @@
 /*  REVERSI game.
       author: Bekhruz Otaev
       e-mail: beki@asterone.co.jp
-      date:   November 27, 2020
-    The game runs smoothly on Windows with Japanese Lanaguage Support.*/
+      date:   December 1, 2020 */
 #include "declarations.h" // all declared variables, functions, etc 
 
 /* ################################
@@ -45,22 +44,31 @@ void welcome() {
 };
 
 /* ################################
-    possible moving spots
-    for current_player
+    possible spots + outflank func
+    for the current_player
 ################################ */
-void possible(int a, int b, int direction) {
+void possible(int a, int b, int direction, int possible_moves) {
   int a_changed = direction_point[direction][0];
   int b_changed = direction_point[direction][1];
   bool flag = false;
-  int i, j;
+  int i, j, q, w;
   for (i = a + a_changed, j = b + b_changed; i >= 0 && j >= 0 && i < BOARD_SIZE && j < BOARD_SIZE; i += a_changed, j += b_changed) {
     if (board[i][j] == opposite_player) {
       flag = true;
       continue;
-    } else if (board[i][j] == BLANK) {
-      if (flag == true) {
+    } else if (board[i][j] == BLANK && possible_moves == true) {
+      if (flag) {
         board[i][j] = OK;
         ok_count++;
+        return;
+      }else {
+        return;
+      }
+    } else if (board[i][j] == current_player && possible_moves !=true) {
+      if (flag == true) {
+        for (q = ver + a_changed, w = hor + b_changed; q != i || w != j; q += a_changed, w += b_changed) {
+          board[q][w] = current_player;
+        }
       }
       return;
     }
@@ -69,11 +77,12 @@ void possible(int a, int b, int direction) {
 }
 
 void possible_moves() {
+  bool possible_moves = true;
   for (size_t v = 0; v < BOARD_SIZE; v++) {
     for (size_t h = 0; h < BOARD_SIZE; h++) {
       if (board[v][h] == current_player) {
         for (int direction = 0; direction < DIRECTION_MAX; direction++) {
-          possible(v, h, direction);
+          possible(v, h, direction, possible_moves);
         }
       }
     }
@@ -103,34 +112,10 @@ void change_player() {
   possible_moves();
 }
 
-/* ################################
-  check whether pieces can be
-  outflanked for the current_player
-################################ */
-void check(int a, int b, int direction) {
-  int a_changed = direction_point[direction][0];
-  int b_changed = direction_point[direction][1];
-  bool flag = false;
-  int i, j, q, w;
-  for (i = a + a_changed, j = b + b_changed; i >= 0 && j >= 0 && i < BOARD_SIZE && j < BOARD_SIZE; i += a_changed, j += b_changed) {
-    if (board[i][j] == opposite_player) {
-      flag = true;
-      continue;
-    } else if (board[i][j] == current_player) {
-      if (flag) {
-        for (q = ver + a_changed, w = hor + b_changed; q != i || w != j; q += a_changed, w += b_changed) {
-          board[q][w] = current_player;
-        }
-      }
-      return;
-    }
-    return;
-  }
-}
-
 void check_all(int a, int b) {
+  bool possible_moves = false;
   for (int direction = 0; direction < DIRECTION_MAX; direction++) {
-    check(a, b, direction);
+    possible(a, b, direction, possible_moves);
   }
 }
 
@@ -138,9 +123,7 @@ void check_all(int a, int b) {
 bool is_ok(int a, int b) {
   if (board[a][b] == OK) {
     return true;
-  } else {
-    return false;
-  }
+  } else {return false;}
 };
 
 /* Function that checks if the game is over */
@@ -159,8 +142,7 @@ void draw_board() {
   black_count = 0;
   white_count = 0;
   blank_count = 0;
-  printf("\n     1   2   3   4   5   6   7   8");
-  printf("\n");
+  printf("\n     1   2   3   4   5   6   7   8\n");
   for (v = 0; v < 8; v++) {
     printf("\n %d ", v + 1);
     for (h = 0; h < 8; h++) {
