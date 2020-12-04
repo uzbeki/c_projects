@@ -53,21 +53,22 @@ void possible(int a, int b, int direction, int possible_moves) {
   bool flag = false;
   int i, j, q, w;
   for (i = a + a_changed, j = b + b_changed; i >= 0 && j >= 0 && i < BOARD_SIZE && j < BOARD_SIZE; i += a_changed, j += b_changed) {
-    if (board[i][j] == opposite_player) {
+    
+    if (*(*(board + i) + j) == opposite_player) {
       flag = true;
       continue;
-    } else if (board[i][j] == BLANK && possible_moves == true) {
+    } else if (*(*(board + i) + j) == BLANK && possible_moves == true) {
       if (flag) {
-        board[i][j] = OK;
+        *(*(board + i) + j) = OK;
         ok_count++;
         return;
-      }else {
+      } else {
         return;
       }
-    } else if (board[i][j] == current_player && possible_moves !=true) {
+    } else if (*(*(board + i) + j) == current_player && possible_moves != true) {
       if (flag == true) {
         for (q = ver + a_changed, w = hor + b_changed; q != i || w != j; q += a_changed, w += b_changed) {
-          board[q][w] = current_player;
+          *(*(board + q) + w) = current_player;
         }
       }
       return;
@@ -80,7 +81,7 @@ void possible_moves() {
   bool possible_moves = true;
   for (size_t v = 0; v < BOARD_SIZE; v++) {
     for (size_t h = 0; h < BOARD_SIZE; h++) {
-      if (board[v][h] == current_player) {
+      if (*(*(board + v) + h) == current_player) {
         for (int direction = 0; direction < DIRECTION_MAX; direction++) {
           possible(v, h, direction, possible_moves);
         }
@@ -96,8 +97,8 @@ void possible_moves() {
 void possible_move_reset() {
   for (v = 0; v < BOARD_SIZE; v++) {
     for (h = 0; h < BOARD_SIZE; h++) {
-      if (board[v][h] == OK) {
-        board[v][h] = BLANK;
+      if (*(*(board + v) + h) == OK) {
+        *(*(board + v) + h) = BLANK;
       }
     }
   }
@@ -121,9 +122,9 @@ void check_all(int a, int b) {
 
 // checks if input position is ok
 bool is_ok(int a, int b) {
-  if (board[a][b] == OK) {
+  if (*(*(board + a) + b) == OK) {
     return true;
-  } else {return false;}
+  } else { return false; }
 };
 
 /* Function that checks if the game is over */
@@ -146,13 +147,13 @@ void draw_board() {
   for (v = 0; v < 8; v++) {
     printf("\n %d ", v + 1);
     for (h = 0; h < 8; h++) {
-      if (board[v][h] == BLACK) {
+      if (*(*(board + v) + h) == BLACK) {
         black_count++;
         printf("  x ");
-      } else if (board[v][h] == WHITE) {
+      } else if (*(*(board + v) + h) == WHITE) {
         white_count++;
         printf("  ○ ");
-      } else if (board[v][h] == OK) {
+      } else if (*(*(board + v) + h) == OK) {
         printf(COLOR_RED "  · " COLOR_RESET);
       } else {
         blank_count++;
@@ -203,7 +204,7 @@ void get_input() {
         ver + 1, hor + 1);
       get_input();
     }
-    board[ver][hor] = current_player; //put the piece on the board
+    *(*(board + ver) + hor) = current_player; //put the piece on the board
   }
 }
 
